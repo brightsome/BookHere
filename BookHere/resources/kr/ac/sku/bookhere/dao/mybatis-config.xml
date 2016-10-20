@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+   PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+   
+   <typeAliases>
+      <typeAlias type="kr.ac.sku.bookhere.vo.BookStoreVO" alias="BookStore" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.MemberVO" alias="Member" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.MyBookVO" alias="MyBook" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.BookVO" alias="Book" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.StockVO" alias="Stock" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.MyBookInfoVO" alias="MyBookInfo" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.MyWishVO" alias="MyWish" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.MyWishInfoVO" alias="MyWishInfo" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.RecommendVO" alias="Recommend" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.BookShelfVO" alias="BookShelf" />
+      <typeAlias type="kr.ac.sku.bookhere.vo.OwnerVO" alias="Owner" />
+   </typeAliases>
+
+   <mappers>
+      <mapper resource="kr/ac/sku/bookhere/dao/BookStoreMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/MemberMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/BookMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/StockMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/MyBookMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/MyWishMapper.xml" />
+      <mapper resource="kr/ac/sku/bookhere/dao/BookShelfMapper.xml" />
+   </mappers>
+
+</configuration>

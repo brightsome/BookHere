@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.Bookstore">
+
+	<resultMap type="BookStore" id="BookStoreList">
+		<result column="branchid" property="branchid" />
+		<result column="storename" property="storename" />
+		<result column="branchname" property="branchname" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="address" property="address" />
+		<result column="phonenum" property="phonenum" />
+		<result column="website" property="website" />
+		<result column="pic" property="pic" />
+	</resultMap>
+
+	<resultMap type="Owner" id="OwnerandBookstore">
+		<result column="branchname" property="branchname" />
+		<result column="address" property="address" />
+		<result column="phonenum"  property="phonenum" />
+		<result column="id" property="id" />
+		<result column="phonenumber" property="phonenumber" />
+		<result column="name" property="name" />
+		<result column="pic" property="bookstorepic" />
+	</resultMap>
+
+	<select id="kyoboStoreList" resultMap="BookStoreList">
+		SELECT * FROM bookstore
+		WHERE storename = '교보문고' ORDER BY branchid
+	</select>
+
+	<select id="ypStoreList" resultMap="BookStoreList">
+		SELECT * FROM bookstore WHERE
+		storename = '영풍문고' ORDER BY branchid
+	</select>
+
+	<select id="bandiStoreList" resultMap="BookStoreList">
+		SELECT * FROM bookstore
+		WHERE storename = '반디앤루니스' ORDER BY branchid
+	</select>
+
+	<select id="aladinStoreList" resultMap="BookStoreList">
+		SELECT * FROM bookstore
+		WHERE storename = '알라딘' ORDER BY branchid
+	</select>
+
+	<select id="gbookstoreList" resultMap="BookStoreList"> 
+	<![CDATA[
+      SELECT * FROM bookstore where storename = '알라딘' or storename = '반디앤루니스' or storename = '영풍문고' or storename = '교보문고' ORDER BY branchid
+    ]]>
+	</select>
+
+	<select id="bookstoreList" resultMap="BookStoreList"> 
+	<![CDATA[
+      SELECT * FROM bookstore where storename= '동네서점' AND website IS NOT NULL
+    ]]>
+	</select>
+
+	<select id="bookstoreAddressSearch" resultMap="BookStoreList">
+		SELECT * FROM
+		bookstore WHERE address LIKE '%' || #{searchTxt} || '%' ORDER
+		BY
+		branchid
+	</select>
+
+	<select id="countBookstore" resultType="int">
+		SELECT COUNT(*) FROM
+		bookstore
+	</select>
+
+	<select id="bookstoreOne" resultMap="BookStoreList"> 
+	<![CDATA[
+      SELECT * FROM bookstore where branchid=#{branchid}
+    ]]>
+	</select>
+
+	<insert id="insertBookstore" parameterType="BookStore">
+	<![CDATA[
+			INSERT INTO bookstore(branchid, storename, branchname, phonenum, latitude, longitude, address, website, pic)
+			VALUES(#{branchid}, #{storename}, #{branchname}, #{phonenum}, #{latitude}, #{longitude}, #{address}, #{website}, #{pic})
+	]]>
+	</insert>
+
+	<delete id="deleteBookstore" parameterType="java.lang.String">
+   <![CDATA[
+   		DELETE FROM bookstore WHERE branchid=#{branchid}
+   ]]>
+	</delete>
+	
+	<update id="updateWebstie" parameterType="Owner">
+	   <![CDATA[
+	 	  UPDATE bookstore SET website = #{id} WHERE branchid = #{branchid}
+	   ]]>
+   </update>
+
+
+	<select id="ownerandbookstore" resultMap="OwnerandBookstore">
+		SELECT b.branchname,
+		b.address,
+		b.phonenum,
+		b.pic,
+		m.id,
+		m.name,
+		m.phonenumber
+		FROM bookstore b, member m
+		WHERE b.website = m.id AND m.owner = 1
+	</select>
+	
+	
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.BookShelf">
+<resultMap type="BookShelf" id="BookShelfResultMap">
+      <result column="id" property="id"/>
+      <result column="likecount" property="likecount"/>
+      <result column="isbn" property="isbn"/>
+      <result column="bookname" property="bookname"/>
+       <result column="pic" property="pic"/>
+   </resultMap>
+   
+   
+    
+   <!-- bookshelfList -->
+	<select id="selectBookShelfList" parameterType="BookShelf" resultMap="BookShelfResultMap">
+   <![CDATA[
+    select member.id, member.likecount, member.pic from member,book,mybook 
+    where book.isbn=mybook.isbn and member.id=mybook.id and book.bookname like '%'||#{bookname }||'%' or member.id like  '%'||#{id }||'%' 
+    group by member.id, member.likecount,member.pic
+   ]]>   
+   </select>
+   
+   <select id="selectBookNameList" parameterType="String" resultMap="BookShelfResultMap">
+   <![CDATA[
+  	select member.id, member.likecount,member.pic from member,book,mybook 
+	where book.isbn=mybook.isbn and member.id=mybook.id and book.bookname like '%'||#{bookname }||'%'
+	group by member.id, member.likecount,member.pic
+
+    ]]>   
+   </select>
+   
+    <select id="selectMemberList" parameterType="String" resultMap="BookShelfResultMap">
+   <![CDATA[
+  	select id,likecount,pic from member where id like '%'||#{id }||'%' 
+    ]]>   
+   </select>
+   
+   
+</mapper>

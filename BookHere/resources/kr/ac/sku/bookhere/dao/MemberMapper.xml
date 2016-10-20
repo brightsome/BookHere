@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.Member">
+
+   <resultMap type="Member" id="MemberResultMap">
+      <result column="id" property="id"/>
+      <result column="password" property="password"/>
+      <result column="name" property="name"/>
+      <result column="phonenumber" property="phonenumber"/>
+      <result column="mail" property="mail"/>
+      <result column="pic" property="pic"/>
+      <result column="likecount" property="likecount"/>
+      <result column="owner" property="owner"/>
+   </resultMap>
+   
+
+   
+   <insert id="insertMember" parameterType="Member">
+   <![CDATA[
+   INSERT INTO member(id,password,name,phonenumber,mail,pic,likecount)
+   VALUES(#{id},#{password},#{name},#{phonenumber},#{mail},#{pic},0)
+   ]]>
+   </insert>
+   
+   <delete id="deleteMember" parameterType="Member">
+   <![CDATA[
+  		 DELETE FROM member WHERE id=#{id}
+   ]]>
+   </delete>
+   
+   <update id="updateMember" parameterType="Member">
+   <![CDATA[
+   UPDATE member SET name = #{name}, password = #{password}, phonenumber = #{phonenumber}, mail = #{mail},
+   pic = #{pic}, likecount=#{likecount}, owner=#{owner} 
+   WHERE id=#{id} 
+   ]]>
+   </update>
+   
+   <select id="selectMember" parameterType="Member" resultMap="MemberResultMap">
+   <![CDATA[
+   SELECT * FROM member WHERE id=#{id}
+   ]]>   
+   </select>
+   
+   <select id="selectOwner" parameterType="Member" resultMap="MemberResultMap">
+   <![CDATA[
+   SELECT * FROM member WHERE owner = 2
+   ]]>   
+   </select>
+  
+   <select id="selectMemberList" parameterType="Member" resultMap="MemberResultMap">
+   <![CDATA[
+   SELECT * FROM member 
+   ]]>   
+   </select>
+   
+   <select id="selectTopMemberList" parameterType="Member" resultMap="MemberResultMap">
+   <![CDATA[
+   SELECT * FROM member order by likecount desc
+   ]]>   
+   </select>
+   
+   <update id="updateOwner" parameterType="Member">
+   <![CDATA[
+   UPDATE member SET owner = 2 WHERE id = #{id}
+   ]]>
+   </update>
+   
+   <update id="updateLikeCount" parameterType="Member">
+   <![CDATA[
+   UPDATE member SET likecount=likecount+1 WHERE id = #{id}
+   ]]>
+   </update>
+   
+
+   
+</mapper>

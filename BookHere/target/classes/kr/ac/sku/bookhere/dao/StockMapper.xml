@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.Stock">
+
+   <insert id="insertStock" parameterType="Stock">
+   <![CDATA[
+         INSERT INTO stock(branchid, id, isbn, stock)
+         VALUES(#{branchid}, #{id}, #{isbn}, #{stock})
+   ]]>
+   </insert>
+   
+   <insert id="insertStockG" parameterType="Stock">
+   <![CDATA[
+         INSERT INTO stock(branchid, id, isbn, stock)
+         VALUES(#{branchid}, #{id}, #{isbn}, #{stock})
+   ]]>
+   </insert>
+   
+</mapper>

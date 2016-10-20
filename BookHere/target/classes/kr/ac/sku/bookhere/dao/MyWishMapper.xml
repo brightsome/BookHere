@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.MyWish">
+
+	<resultMap type="MyWishInfo" id="MyWishResultMap">
+		<result column="id" property="id" />
+		<result column="isbn" property="isbn" />
+		<result column="bookname" property="bookname" />
+		<result column="author" property="author" />
+		<result column="publisher" property="publisher" />
+		<result column="img" property="img" />
+		<result column="count" property="count" />
+	</resultMap>
+
+	<insert id="insertMyWish" parameterType="MyWish">
+   <![CDATA[
+   INSERT INTO mywish(id,isbn)
+   VALUES(#{id},#{isbn})
+   ]]>
+	</insert>
+
+
+	<select id="selectMyWishList" parameterType="MyWishInfo"
+		resultMap="MyWishResultMap">
+   <![CDATA[
+		SELECT *
+		FROM BOOK B, MYWISH M 
+		WHERE B.ISBN = M.ISBN AND M.ID=#{ID} 
+ 	
+   ]]>
+	</select>
+
+	<delete id="deleteMyWish" parameterType="MyWish">
+   	<![CDATA[
+   		DELETE FROM MYWISH WHERE isbn=#{isbn} and id=#{id}
+   	]]>
+	</delete>
+
+
+	<select id="selectTopWishList" parameterType="MyWishInfo" resultMap="MyWishResultMap">
+  	 <![CDATA[
+   	SELECT COUNT(M.ISBN) COUNT,M.ISBN,B.BOOKNAME,B.IMG,B.AUTHOR FROM  MYWISH M, BOOK B
+	WHERE M.ISBN=B.ISBN GROUP BY M.ISBN,B.BOOKNAME,B.IMG,B.AUTHOR ORDER BY COUNT(ISBN) DESC
+   	]]>
+	</select>
+
+
+
+</mapper>

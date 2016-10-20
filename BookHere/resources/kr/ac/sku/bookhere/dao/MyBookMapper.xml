@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.sku.bookhere.MyBook">
+
+	<resultMap type="MyBookInfo" id="MyBookResultMap">
+		<result column="id" property="id" />
+		<result column="isbn" property="isbn" />
+		<result column="memo" property="memo" />
+		<result column="mdate" property="mdate" />
+		<result column="bookname" property="bookname" />
+		<result column="author" property="author" />
+		<result column="img" property="img" />
+		<result column="star" property="star" />
+	</resultMap>
+
+	<resultMap type="MyBook" id="MyBookUpdateMap">
+		<result column="id" property="id" />
+		<result column="isbn" property="isbn" />
+		<result column="memo" property="memo" />
+		<result column="mdate" property="mdate" />
+		<result column="star" property="star" />
+	</resultMap>
+
+	<resultMap type="Recommend" id="RecommendMap">
+		<result column="id" property="id" />
+		<result column="count" property="count" />
+		<result column="pic" property="pic" />
+	</resultMap>
+
+
+	<insert id="insertMyBook" parameterType="MyBook">
+   <![CDATA[
+   INSERT INTO mybook(id,isbn,memo,mdate,star)
+   VALUES(#{id},#{isbn},#{memo},sysdate,#{star})
+   ]]>
+	</insert>
+
+
+	<select id="selectMyBookList" parameterType="MyBookInfo"
+		resultMap="MyBookResultMap">
+   <![CDATA[
+   		select *
+		from book b, mybook m 
+		where b.isbn = m.isbn and m.id=#{id} 
+		
+   ]]>
+	</select>
+
+
+	<select id="selectMyBook" parameterType="MyBook" resultMap="MyBookUpdateMap">
+   <![CDATA[
+ 		 select *
+		from mybook
+		where id = #{id} and isbn = #{isbn}
+   ]]>
+	</select>
+
+
+
+	<delete id="deleteMyBook" parameterType="MyBook">
+   <![CDATA[
+   DELETE FROM MYBOOK WHERE isbn=#{isbn} and id=#{id}
+   ]]>
+	</delete>
+
+
+
+	<update id="updateMyBook" parameterType="MyBook">
+   <![CDATA[
+   UPDATE MYBOOK SET memo=#{memo},mdate=sysdate,star={star} WHERE id=#{id} and isbn=#{isbn} 
+   ]]>
+	</update>
+
+
+	<select id="recommendMember" parameterType="Recommend"
+		resultMap="RecommendMap">
+   <![CDATA[
+ 		select id, count(isbn) as count
+		from mybook
+		Where not id=#{id} and isbn in (select isbn From mybook Where id=#{id})
+		group by id
+		order by count(isbn) desc
+   ]]>
+	</select>
+
+   	<select id="selectMemberPic" parameterType="Recommend"
+		resultType="String">
+   <![CDATA[
+  			select me.pic
+			from member me, mybook my
+			where my.id=me.id and me.id=#{id} 
+			group by me.pic
+  ]]> 
+	</select>
+   
+
+
+
+
+</mapper>
